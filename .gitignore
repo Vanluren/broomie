@@ -1,0 +1,10 @@
+# IntelliJ project files
+.idea
+*.iml
+
+# YARN/NPM specific ignores
+/node_modules/
+/yarn.lock
+
+# Project specific ignores
+config.js
