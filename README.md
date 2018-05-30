@@ -1,2 +1,0 @@
-# Broomie
-The broomie webapplication
