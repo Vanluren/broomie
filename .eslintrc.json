@@ -1,0 +1,72 @@
+{
+	"parser": "babel-eslint",
+	"extends": [
+		"airbnb",
+		"prettier",
+		//see github.com/prettier/eslint-config-prettier
+		"prettier/react"
+	],
+	"plugins": [
+		"react",
+		"jsx-a11y",
+		"import",
+		"promise",
+		"jest"
+	],
+	"rules": {
+		"no-tabs": "off",
+		"spaced-comment": "off",
+		"no-use-before-define": "off",
+		"no-param-reassign": "off",
+		"func-names": [
+			"warn",
+			"as-needed"
+		],
+		"global-require": "off",
+		"import/no-extraneous-dependencies": "off",
+		"import/prefer-default-export": "off",
+		"react/jsx-filename-extension": [
+			"error",
+			{
+				"extensions": [
+					".js",
+					".jsx"
+				]
+			}
+		],
+		"react/sort-comp": [
+			"error",
+			{
+				"order": [
+					"static-methods",
+					"lifecycle",
+					"everything-else",
+					"render",
+					"styles"
+				]
+			}
+		],
+		"complexity": [
+			"error",
+			6
+		],
+		"linebreak-style": "off",
+		//Promise rules
+		"promise/always-return": "error",
+		"promise/no-return-wrap": "error",
+		"promise/catch-or-return": "error",
+		"promise/no-nesting": "warn",
+		//jest rules
+		"jest/no-disabled-tests": "error",
+		"jest/no-focused-tests": "error",
+		"jest/no-identical-title": "error"
+	},
+	"env": {
+		"jest": true
+	},
+	"globals": {
+		"__DEV__": true,
+		"__TEST__": true,
+		"fetch": true
+	}
+}
