@@ -8,3 +8,4 @@
 
 # Project specific ignores
 config.js
+*.log
