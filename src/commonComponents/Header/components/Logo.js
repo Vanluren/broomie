@@ -17,7 +17,7 @@ const LogoWrapper = styled.div`
     align-items: center;
 `;
 const Logo = styled.img`
-	width: 130px;
+	width: 145px;
     height: auto;
 `;
 // LogoImage.propTypes = {};
