@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import { Grid, Row } from 'react-bootstrap';
+import { Container, Row } from 'reactstrap';
 import Header from '../../commonComponents/Header/Header.container';
+
 
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends Component {
   render() {
     return (
-    	<Grid fluid>
+    	<Container fluid>
 		    <Row>
 			    <Header/>
 		    </Row>
-	    </Grid>
+	    </Container>
     );
   }
 }
