@@ -1,11 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { shallow } from 'enzyme';
 import App from '../App';
+import Header from '../../../commonComponents/Header/Header.container';
 
-describe('App.Js renders correctly', ()=>{
-	test('renders without crashing', () => {
-		const div = document.createElement('div');
-		ReactDOM.render(<App />, div);
-		ReactDOM.unmountComponentAtNode(div);
+describe('App.Js', ()=>{
+	it('renders without crashing', ()=>{
+		shallow(<App />);
+	});
+	it('contains a Header-element',()=>{
+		const wrapper = shallow(<App/>);
+// eslint-disable-next-line no-unused-expressions
+		expect(wrapper.contains(<Header/>)).toBeTruthy;
 	});
 });
