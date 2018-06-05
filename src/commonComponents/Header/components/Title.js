@@ -18,6 +18,7 @@ const TitleWrapper = styled.div`
 const TitleText = styled.h1`
 	color: #000;
 	font-weight: bold;
+	font-size: 40px;
 `;
 
 //Title.propTypes = {};

@@ -1,33 +1,26 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Col, Row } from 'react-bootstrap';
+import { Col } from 'reactstrap';
 import HeaderLogo from './components/Logo';
 import HeaderTitle from './components/Title';
 
 const Header = () => (
-	<HeaderWrapper>
-		<Row>
-			<Col xs={12}>
+		<HeaderWrapper>
 				<Col xs={4}>
-					<HeaderLogo/>
+					<HeaderLogo />
 				</Col>
 				<Col xs={6}>
-					<HeaderTitle/>
+					<HeaderTitle />
 				</Col>
-			</Col>
-		</Row>
-	</HeaderWrapper>
-  );
+		</HeaderWrapper>
+);
 const HeaderWrapper = styled.div`
 	background-color: lightgray;
-	position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 1030;
-    padding-top: 15px;
-    padding-bottom: 15px;
+	display: flex;
+	width: 100%;
+	padding-top:20px;
+	padding-bottom: 20px;
 `;
 // Header.propTypes = {};
 // Header.defaultProps = {};

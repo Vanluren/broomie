@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import logo from '../../../assets/images/logo.svg';
 
 
-const LogoImage = () => (
+const Logo = () => (
     <LogoWrapper>
-	    <Logo src={logo} alt="logo" />
+	    <LogoImage src={logo} alt="logo" />
     </LogoWrapper>
     
   );
@@ -16,11 +16,11 @@ const LogoWrapper = styled.div`
     justify-content: flex-start;
     align-items: center;
 `;
-const Logo = styled.img`
+const LogoImage = styled.img`
 	width: 145px;
     height: auto;
 `;
 // LogoImage.propTypes = {};
 // LogoImage.defaultProps = {};
 
-export default LogoImage;
+export default Logo;
