@@ -5,28 +5,36 @@ import { Col } from 'reactstrap';
 import MenuItem from './components/MenuItem';
 
 const menuItems = [
-	'Home',
+	{
+		pathName: 'Home',
+		path: '/',
+		exact: true
+	}, {
+		pathName: 'Skader',
+		path: '/skader',
+		exact: false
+	},{
+		pathName: 'Klager',
+		path: '/klager',
+		exact:false
+	}
 ];
+
 class SidebarMenu extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {activeItem: 'Home'}
-		this.chooseMenuItem.bind(this);
 	}
-	chooseMenuItem(menuItem){
-		this.setState({activeItem: menuItem});
-	}
+	
 	render() {
     return (
 	    <Col md={2}>
 		    <SidebarWrapper>
 			    {menuItems.map(menuItem =>
 				    <MenuItem
-					    key={menuItem}
-					    active={menuItem === this.state.activeItem}
-					    link='#'
-					    itemName={menuItem}
-					    onClickFunc={()=>{this.chooseMenuItem()}}
+					    key={menuItem.pathName}
+					    active={window.location.pathname === menuItem.path}
+					    link={menuItem.path}
+					    itemName={menuItem.pathName}
 				    />
 			    )}
 		    </SidebarWrapper>
