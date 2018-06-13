@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
 	BrowserRouter as Router,
-	Route, Switch,
+	Route
 } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
@@ -12,14 +12,10 @@ import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
 	<Router>
-			<Switch>
-				<Route
-					path='/'
-					component={App}
-				/>
-				<Route path='/skader' component={App} />
-				<Route path='/klager' component={App} />
-			</Switch>
+		<Route
+			path='/'
+			component={App}
+		/>
 	</Router>
 	,
 // eslint-disable-next-line no-undef
