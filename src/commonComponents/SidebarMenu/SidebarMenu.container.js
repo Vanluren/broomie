@@ -1,60 +1,45 @@
-import React, { Component } from 'react';
+import React from 'react';
 //import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Col } from 'reactstrap';
 import MenuItem from './components/MenuItem';
+import { viceRoutes } from '../../services/Router/Router';
 
-const menuItems = [
-	{
-		pathName: 'Home',
-		path: '/',
-		exact: true
-	}, {
-		pathName: 'Skader',
-		path: '/skader',
-		exact: false
-	},{
-		pathName: 'Klager',
-		path: '/klager',
-		exact:false
-	}
-];
+const SidebarMenu = () => (
+	<SidebarWrapper>
+		<SidebarList>
+			{renderMenuItems()}
+		</SidebarList>
+	</SidebarWrapper>
+);
 
-class SidebarMenu extends Component {
-	constructor(props) {
-		super(props);
-	}
-	
-	render() {
-    return (
-	    <Col md={2}>
-		    <SidebarWrapper>
-			    {menuItems.map(menuItem =>
-				    <MenuItem
-					    key={menuItem.pathName}
-					    active={window.location.pathname === menuItem.path}
-					    link={menuItem.path}
-					    itemName={menuItem.pathName}
-				    />
-			    )}
-		    </SidebarWrapper>
-	    </Col>
-    );
-  }
-}
 
-const SidebarWrapper = styled.div`
+const renderMenuItems = () => (
+	viceRoutes.map(menuItem =>
+		<MenuItem
+			key={menuItem.pathName}
+			link={menuItem.path}
+			itemName={menuItem.pathName}
+		/>
+	)
+);
+
+
+const SidebarWrapper = styled.aside`
     position: fixed !important;
     top: 149px;
     bottom: 0;
     left: 0;
     z-index: 1000;
-    padding: 20px;
     overflow-x: hidden;
     overflow-y: auto;
-    border-right: 1px solid #eee;
+    border-right: 1px solid #EEEEEE;
     border-right: 1px solid gray;
     background-color: lightgrey;
+`;
+const SidebarList = styled.ul`
+	list-style: none;
+	margin: 0;
+	padding: 0;
 `;
 
 SidebarMenu.propTypes = {};

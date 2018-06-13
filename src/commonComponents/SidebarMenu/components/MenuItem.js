@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 
-const MenuItem = ({link, itemName}) => (
-		<ItemWrapper>
+const MenuItem = ({ link, itemName }) => {
+	
+	// eslint-disable-next-line react/prop-types
+	const Item = ({ match }) => (
+		<ItemWrapper active={match}>
 			<StyledNavLink
 				exact
 				to={link}
@@ -12,21 +15,43 @@ const MenuItem = ({link, itemName}) => (
 				{itemName}
 			</StyledNavLink>
 		</ItemWrapper>
-);
-const ItemWrapper = styled.div`
-width: 100%;
-padding: 15px 0px;
+	);
+	
+	return (
+		<Route
+			path={link}
+			exact
+		>
+			{Item}
+		</Route>
+	);
+}
+const ItemWrapper = styled.li`
+	width: 100%;
+	display: flex;
+	cursor: pointer;
+	background: ${(props) => props.active ? 'darkgrey' : 'lightgrey'};
+	&:hover{
+		background-color: darkgrey;
+	}
 `;
 const StyledNavLink = styled(NavLink)`
- color: blue;
-  &.active {
-   background-color: yellow;
-  }
+    width: 100%;
+    height: 100%;
+    padding: 15px 20px;
+    color: black;
+    text-decoration: none;
+    &:hover{
+        color: #000000;
+        text-decoration: none;
+    }
 `;
 MenuItem.propTypes = {
+	link: PropTypes.string.isRequired,
+	itemName: PropTypes.string.isRequired,
 };
 MenuItem.defaultProps = {
-
+	match: null
 };
 
 export default MenuItem;
