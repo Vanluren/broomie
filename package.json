@@ -30,7 +30,6 @@
     "eslint-plugin-prettier": "^2.0.1",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-react": "^7.0.1",
-    "react-bootstrap": "^0.32.1",
     "react-test-renderer": "^16.4.0",
     "reactstrap": "^6.1.0"
   }
