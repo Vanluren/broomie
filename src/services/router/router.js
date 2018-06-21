@@ -1,4 +1,4 @@
-import App from '../../views/App/App';
+import App from '../../App';
 import Skader from '../../views/SkaderView/Skader.container';
 import Klager from '../../views/KlagerView/KlagerView.container';
 
