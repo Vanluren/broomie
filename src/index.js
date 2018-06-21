@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
 import './index.css';
 import App from './views/App/App';
+import store from './services/redux/reduxStore';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-	<App/>,
+	<Provider store={store}>
+		<App/>	
+	</Provider>,
 // eslint-disable-next-line no-undef
 	document.getElementById('root'));
 registerServiceWorker();
