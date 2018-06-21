@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux/index';
-import tickets from '../../views/App/ducks/App.ducks';
+import { combineReducers } from 'redux';
+import data from '../../views/App/ducks/App.ducks';
 
 const reducer = combineReducers({
-	tickets,
+	data,
 });
 
 export default reducer;

@@ -5,7 +5,11 @@ import Header from '../../commonComponents/Header/Header.container';
 import SidebarMenu from '../../commonComponents/SidebarMenu/SidebarMenu.container';
 import Skader from '../SkaderView/Skader.container';
 import Klager from '../KlagerView/KlagerView.container';
+import store from '../../services/redux/reduxStore';
+import { fetchAllTickets } from './ducks/App.ducks';
 
+
+store.dispatch(fetchAllTickets());
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends Component {
 	render() {
