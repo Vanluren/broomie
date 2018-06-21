@@ -1,0 +1,1 @@
+export const FETCH_ALL_TICKETS = 'FETCH_ALL_TICKETS';
