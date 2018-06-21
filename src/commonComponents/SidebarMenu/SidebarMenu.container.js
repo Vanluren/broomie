@@ -19,9 +19,9 @@ class SidebarMenu extends Component {
 			.firestore()
 			.collection('/departments/76/tickets')
 			.where('type', '==', 'skade')
-			.onSnapshot((snapshot)=>{
+			.onSnapshot((snapshot) => {
 				const skader = [];
-				snapshot.forEach((doc)=>{
+				snapshot.forEach((doc) => {
 					skader.push(doc.data());
 				})
 				this.setState({ numSkader: skader.length });
@@ -31,9 +31,9 @@ class SidebarMenu extends Component {
 			.firestore()
 			.collection('/departments/76/tickets')
 			.where('type', '==', 'skade')
-			.onSnapshot((snapshot)=>{
+			.onSnapshot((snapshot) => {
 				const skader = [];
-				snapshot.forEach((doc)=>{
+				snapshot.forEach((doc) => {
 					skader.push(doc.data());
 				})
 				this.setState({ numSkader: skader.length });
@@ -58,13 +58,13 @@ const
 				key={menuItem.menuTitle}
 				link={menuItem.path}
 				itemName={menuItem.menuTitle}
+				component={menuItem.component}
 			/>
 		)
 	);
 
 
-const
-	SidebarWrapper = styled.aside`
+const SidebarWrapper = styled.aside`
     position: fixed !important;
     top: 149px;
     bottom: 0;
@@ -72,12 +72,10 @@ const
     z-index: 1000;
     overflow-x: hidden;
     overflow-y: auto;
-    border-right: 1px solid #EEEEEE;
     border-right: 1px solid gray;
     background-color: lightgrey;
 `;
-const
-	SidebarList = styled.ul`
+const SidebarList = styled.ul`
 	list-style: none;
 	margin: 0;
 	padding: 0;
