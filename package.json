@@ -8,8 +8,11 @@
     "jest-enzyme": "^6.0.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^3.3.0"
   },
   "scripts": {
@@ -31,6 +34,7 @@
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-react": "^7.0.1",
     "react-test-renderer": "^16.4.0",
-    "reactstrap": "^6.1.0"
+    "reactstrap": "^6.1.0",
+    "redux-devtools-extension": "^2.13.5"
   }
 }
