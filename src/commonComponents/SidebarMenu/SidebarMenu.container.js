@@ -1,67 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 //import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import MenuItem from './components/MenuItem';
-import { viceRoutes } from '../../services/Router/router';
-import firebase from '../../services/firebase/firestore';
+import { viceRoutes } from '../../services/router/router';
 
-class SidebarMenu extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			numSkader: 0,
-			numKlager: 0,
-		};
-	}
-	
-	componentDidMount() {
-		this.getNumSkader = firebase
-			.firestore()
-			.collection('/departments/76/tickets')
-			.where('type', '==', 'skade')
-			.onSnapshot((snapshot) => {
-				const skader = [];
-				snapshot.forEach((doc) => {
-					skader.push(doc.data());
-				})
-				this.setState({ numSkader: skader.length });
-			});
-		
-		this.getNumKlager = firebase
-			.firestore()
-			.collection('/departments/76/tickets')
-			.where('type', '==', 'skade')
-			.onSnapshot((snapshot) => {
-				const skader = [];
-				snapshot.forEach((doc) => {
-					skader.push(doc.data());
-				})
-				this.setState({ numSkader: skader.length });
-			});
-	}
-	
-	render() {
-		return (
-			<SidebarWrapper>
-				<SidebarList>
-					{renderMenuItems()}
-				</SidebarList>
-			</SidebarWrapper>
-		);
-	}
-}
 
-const
-	renderMenuItems = () => (
-		viceRoutes.map(menuItem =>
-			<MenuItem
-				key={menuItem.menuTitle}
-				link={menuItem.path}
-				itemName={menuItem.menuTitle}
-				component={menuItem.component}
-			/>
-		)
-	);
+const SidebarMenu = () => (
+	<SidebarWrapper>
+		<SidebarList>
+			{renderMenuItems()}
+		</SidebarList>
+	</SidebarWrapper>
+);
+
+const renderMenuItems = () => (
+	viceRoutes.map(menuItem =>
+		<MenuItem
+			key={menuItem.menuTitle}
+			link={menuItem.path}
+			itemName={menuItem.menuTitle}
+			component={menuItem.component}
+		/>
+	)
+);
 
 
 const SidebarWrapper = styled.aside`
@@ -81,9 +42,7 @@ const SidebarList = styled.ul`
 	padding: 0;
 `;
 
-SidebarMenu
-	.propTypes = {};
-SidebarMenu
-	.defaultProps = {};
+//SidebarMenu.propTypes = {};
+//SidebarMenu.defaultProps = {};
 
 export default SidebarMenu;
