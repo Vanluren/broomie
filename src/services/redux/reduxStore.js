@@ -5,7 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 const middleware = [thunk];
 const reducer = combineReducers({});
 const store = createStore(
-	reducer, /* preloadedState, */
+	reducer,
 	composeWithDevTools(
 		applyMiddleware(...middleware),
 	)
