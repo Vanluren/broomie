@@ -1,8 +1,8 @@
 import App from '../../views/App/App';
-import Skader from '../Skader/Skader.container';
+import Skader from '../../views/SkaderView/Skader.container';
+import Klager from '../../views/KlagerView/KlagerView.container';
 
 export const viceRoutes = [
-	
 	{
 		menuTitle: 'Home',
 		path: '/',
@@ -16,6 +16,6 @@ export const viceRoutes = [
 	{
 		menuTitle: 'Klager',
 		path: '/klager',
-		component: null
+		component: Klager
 	}
 ];
