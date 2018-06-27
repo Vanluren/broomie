@@ -22,7 +22,7 @@ class App extends Component {
 					</Row>
 					<Row>
 						<SidebarMenu />
-						<Col md={{ size: 11, offset: 1 }}>
+						<Col md={{ size: 11, offset: 2 }}>
 							<Switch>
 								<Route
 									path='/'

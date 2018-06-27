@@ -31,6 +31,7 @@ const SidebarMenu = ({ numSkader, numKlager }) => (
 const SidebarWrapper = styled.aside`
     position: fixed !important;
     top: 149px;
+    width: 125px;
     bottom: 0;
     left: 0;
     z-index: 1000;
