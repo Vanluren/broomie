@@ -9,7 +9,6 @@ import Home from './views/HomeView/Home.container';
 import store from './services/redux/reduxStore';
 import { fetchAllTickets } from './views/HomeView/ducks/Home.ducks';
 
-
 store.dispatch(fetchAllTickets());
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -23,8 +22,8 @@ class App extends Component {
 					</Row>
 					<Row>
 						<SidebarMenu />
-						<Switch>
-							<Col md={{ size: 11, offset: 1 }}>
+						<Col md={{ size: 11, offset: 1 }}>
+							<Switch>
 								<Route
 									path='/'
 									component={Home}
@@ -38,9 +37,10 @@ class App extends Component {
 								<Route
 									path='/klager'
 									component={Klager}
+									exact
 								/>
-							</Col>
-						</Switch>
+							</Switch>
+						</Col>
 					</Row>
 				</Container>
 			</Router>
