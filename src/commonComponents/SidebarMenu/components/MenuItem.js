@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { NavLink, Route } from 'react-router-dom';
 
-const MenuItem = ({ link, itemName }) => {
-	
+const MenuItem = ({ link, itemName, num, }) => {
+	let MENU_TITLE;
+	if (num > 0){
+		MENU_TITLE = `${itemName} (${num})`;
+	} else {
+		MENU_TITLE = `${itemName}`;
+	}
 	// eslint-disable-next-line react/prop-types
 	const Item = ({ match }) => (
 		<ItemWrapper active={match}>
@@ -12,7 +17,7 @@ const MenuItem = ({ link, itemName }) => {
 				exact
 				to={link}
 			>
-				{itemName}
+				{MENU_TITLE}
 			</StyledNavLink>
 		</ItemWrapper>
 	);
@@ -49,9 +54,12 @@ const StyledNavLink = styled(NavLink)`
 MenuItem.propTypes = {
 	link: PropTypes.string.isRequired,
 	itemName: PropTypes.string.isRequired,
+	num: PropTypes.number,
+	match: PropTypes.bool
 };
 MenuItem.defaultProps = {
-	match: null
+	match: null,
+	num: 0
 };
 
 export default MenuItem;

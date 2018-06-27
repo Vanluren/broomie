@@ -1,29 +1,32 @@
 import React from 'react';
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import MenuItem from './components/MenuItem';
-import { viceRoutes } from '../../services/router/router';
+import { getNumberOfTickets } from '../../services/selectors/selectors';
 
 
-const SidebarMenu = () => (
+const SidebarMenu = ({ numSkader, numKlager }) => (
 	<SidebarWrapper>
 		<SidebarList>
-			{renderMenuItems()}
+			<MenuItem
+				link='/'
+				itemName='Home'
+			/>
+			<MenuItem
+				link='/skader'
+				itemName='Skader'
+				num={numSkader}
+			/>
+			<MenuItem
+				link='/klager'
+				itemName='Klager'
+				num={numKlager}
+			/>
 		</SidebarList>
 	</SidebarWrapper>
 );
-
-const renderMenuItems = () => (
-	viceRoutes.map(menuItem =>
-		<MenuItem
-			key={menuItem.menuTitle}
-			link={menuItem.path}
-			itemName={menuItem.menuTitle}
-			component={menuItem.component}
-		/>
-	)
-);
-
 
 const SidebarWrapper = styled.aside`
     position: fixed !important;
@@ -42,7 +45,13 @@ const SidebarList = styled.ul`
 	padding: 0;
 `;
 
-//SidebarMenu.propTypes = {};
+SidebarMenu.propTypes = {
+	numSkader: PropTypes.number.isRequired,
+	numKlager: PropTypes.number.isRequired,
+};
 //SidebarMenu.defaultProps = {};
-
-export default SidebarMenu;
+const makeMapStateToProps = () => {
+	const mapStateToProps = (state) => (getNumberOfTickets(state))
+	return mapStateToProps
+}
+export default withRouter(connect(makeMapStateToProps)(SidebarMenu));
