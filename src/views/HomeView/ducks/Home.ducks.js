@@ -3,7 +3,10 @@ import firebase from '../../../services/firebase/firestore';
 
 const DEFAULT_STATE = {
 	isFetching: false,
-	tickets: []
+	tickets: {
+		skader: [],
+		klager: [],
+	},
 };
 
 const requestAllTickets = () => ({
@@ -36,18 +39,30 @@ export const fetchAllTickets = () => dispatch => {
 		);
 };
 
+const sortByTicketsByType = (ticketsArr, type) => ticketsArr.filter((ticket) => {
+	if (ticket.type === type){
+		return true;
+	}
+	return false;
+});
+
 const reducer = (state = DEFAULT_STATE, action) => {
 	switch (action.type){
 		case REQUEST_ALL_TICKETS:
-			return Object.assign({}, state, {
+			return {
+				...state,
 				isFetching: true,
-			})
+			}
 		case RECEIVE_ALL_TICKETS:
-			return Object.assign({}, state, {
+			return {
+				...state,
 				isFetching: false,
-				tickets: action.tickets,
+				tickets: {
+					skader: sortByTicketsByType(action.tickets, 'skade'),
+					klager: sortByTicketsByType(action.tickets, 'klage'),
+				},
 				lastUpdated: action.receivedAt
-			})
+			}
 		default:
 			return state;
 	}
