@@ -51,8 +51,9 @@ SidebarMenu.propTypes = {
 	numKlager: PropTypes.number.isRequired,
 };
 //SidebarMenu.defaultProps = {};
-const makeMapStateToProps = () => {
-	const mapStateToProps = (state) => (getNumberOfTickets(state))
-	return mapStateToProps
-}
-export default withRouter(connect(makeMapStateToProps)(SidebarMenu));
+
+const mapStateToProps = (state) => (
+	getNumberOfTickets(state)
+);
+
+export default withRouter(connect(mapStateToProps)(SidebarMenu));
