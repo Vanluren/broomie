@@ -1,5 +1,5 @@
 import { RECEIVE_ALL_TICKETS, REQUEST_ALL_TICKETS } from '../../../services/redux/actionTypes';
-import firebase from '../../../services/firebase/firestore';
+import firestore from '../../../services/firebase/firestore';
 
 const DEFAULT_STATE = {
 	isFetching: false,
@@ -13,16 +13,9 @@ const requestAllTickets = () => ({
 	type: REQUEST_ALL_TICKETS
 });
 
-const receiveAllTickets = (tickets) => ({
-	type: RECEIVE_ALL_TICKETS,
-	tickets,
-	receivedAt: Date.now()
-})
-
 export const fetchAllTickets = () => dispatch => {
 	dispatch(requestAllTickets());
-	firebase
-		.firestore()
+	firestore
 		.collection('/departments/76/tickets')
 		.where('archived', '==', false)
 		.get()
@@ -45,6 +38,14 @@ const sortByTicketsByType = (ticketsArr, type) => ticketsArr.filter((ticket) => 
 	}
 	return false;
 });
+
+const receiveAllTickets = (tickets) => ({
+	type: RECEIVE_ALL_TICKETS,
+	tickets,
+	receivedAt: Date.now()
+});
+
+
 
 const reducer = (state = DEFAULT_STATE, action) => {
 	switch (action.type){
