@@ -2,17 +2,42 @@ import React from 'react';
 import PropTypes from 'prop-types';
 //import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Container } from 'reactstrap';
+import TicketCard from '../../commonComponents/TicketCard/TicketCard.container';
 
 const Home = ({ data }) => {
-	if (!data.isFetching){
+		
+		const renderTicketRows = () => {
+			const ticketArr = [];
+			const tickets = data.tickets.skader
+			tickets.forEach((ticket) => {
+				const content = ticket.ticketContent;
+				ticketArr.push(
+					<TicketCard
+						key={ticket.timeCreated}
+						desc={content.desc}
+						location={content.location}
+						priority={content.priority}
+						date={ticket.timeCreated}
+					/>
+				);
+			});
+			
+			return ticketArr;
+		}
+		if (data.isFetching){
+			return (
+				<h1>Firebase is been fetching</h1>
+			);
+		}
 		return (
-			<h1>Firebase has been fetched</h1>
+			<Container
+			>
+				{renderTicketRows()}
+			</Container>
 		);
 	}
-	return (
-		<h1>Firebase is fetching</h1>
-	);
-};
+;
 
 Home.propTypes = {
 	data: PropTypes.shape({
