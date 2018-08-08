@@ -1,18 +1,51 @@
-import { USER_LOGIN } from '../../../services/redux/actionTypes';
+import firebaseAuth from '../../../services/firebase/authentication';
+import { LOGIN_ERROR, USER_LOGIN } from '../../../services/redux/actionTypes';
 
 export const userLogin = (username, password) => async (dispatch) => {
 	dispatch({
 		type: USER_LOGIN
 	});
-	try {
-		// eslint-disable-next-line no-console
-		console.log('Username:', username);
-		// eslint-disable-next-line no-console
-		console.log('Password:', password);
-	}catch (e){
-// eslint-disable-next-line no-console
-		console.error(e);
+	firebaseAuth
+		.signInWithEmailAndPassword(username, password)
+		.catch(
+			(error) => {
+				dispatch(handleLoginError(error.code));
+			}
+		);
+};
+
+const handleLoginError = (type) => dispatch => {
+	let error = {};
+	const USER = 'user';
+	const PASS = 'pass';
+	
+	const USER_NOT_EXIST = 'Denne bruger findes ikke';
+	const PASSWORD_INCORRECT = 'Forkert password';
+	
+	switch (type){
+		case 'auth/invalid-email':
+			error = {
+				type: USER,
+				message: USER_NOT_EXIST
+			};
+			break;
+		case 'auth/wrong-password':
+			error = {
+				type: PASS,
+				message: PASSWORD_INCORRECT
+			};
+			break;
+		default:
+			error = {
+				type: USER,
+				message: USER_NOT_EXIST
+			};
 	}
+	
+	dispatch({
+		type: LOGIN_ERROR,
+		error
+	})
 };
 
 const DEFAULT_STATE = {
@@ -32,6 +65,16 @@ const reducer = (state = DEFAULT_STATE, action) => {
 			return {
 				...state,
 				isLoggedIn: true,
+				error: {
+					type: null,
+					message: null
+				}
+			};
+		case LOGIN_ERROR:
+			return {
+				...state,
+				isLoggedIn: false,
+				error: action.error
 			};
 		default:
 			return state;
