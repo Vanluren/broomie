@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import PropType from 'prop-types';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap';
 import LoginLogo from './components/Logo';
 import LoginForm from './components/LoginForm';
+import { userLogin } from './ducks/Atuhentication.ducks';
+
 
 const initialState = {
 	username: '',
 	password: '',
-	errorType: null,
-	errorMessage: null
 };
 
 class LoginView extends Component {
@@ -31,17 +33,13 @@ class LoginView extends Component {
 			username,
 			password,
 		} = this.state;
-		this.setState({
-			errorType: 'user',
-			errorMessage: 'Denne bruger findes ikke'
-		});
-		// eslint-disable-next-line no-console
-		console.log('Username:', username);
-		// eslint-disable-next-line no-console
-		console.log('Password:', password);
+		const { actions } = this.props;
+		actions.userLogin(username, password);
 	}
 	
 	render() {
+		const { errorType, errorMessage } = this.props;
+		
 		return (
 			<Container>
 				<Row className='justify-content-center'>
@@ -58,8 +56,8 @@ class LoginView extends Component {
 							<LoginForm
 								onSubmitHandler={this.handleSubmit}
 								onInputFieldHandler={this.handleInputFieldChange}
-								errorType={this.state.errorType}
-								errorMessage={this.state.errorMessage}
+								errorType={errorType}
+								errorMessage={errorMessage}
 							/>
 						</Row>
 					</LoginWrapper>
@@ -69,6 +67,7 @@ class LoginView extends Component {
 	}
 }
 
+
 const LoginWrapper = styled(Col)`
 	background-color: lightgray;
 	margin-top: 20px;
@@ -77,4 +76,29 @@ const LoginWrapper = styled(Col)`
 	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.75);
 `;
 
-export default LoginView;
+LoginView.propTypes = {
+	errorType: PropType.string,
+	errorMessage: PropType.string,
+	actions: PropType.shape({
+		userLogin: PropType.func.isRequired,
+	}).isRequired
+};
+
+LoginView.defaultProps = {
+	errorType: null,
+	errorMessage: null,
+};
+
+const mapStateToProps = (state) => ({
+	errorType: state.auth.error.type,
+	errorMessage: state.auth.error.message,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+	actions: {
+		userLogin: (user, pass) => {
+			dispatch(userLogin(user, pass))
+		}
+	}
+});
+export default connect(mapStateToProps, mapDispatchToProps)(LoginView);
