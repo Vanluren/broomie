@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
 const userLoading = false;
-const user = true;
+const user = false;
 
 class PrivateRoute extends Component {
 	
