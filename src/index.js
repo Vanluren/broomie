@@ -10,23 +10,26 @@ import PrivateRoute from './commonComponents/PrivateRoute/PrivateRoute.container
 import registerServiceWorker from './registerServiceWorker';
 import Home from './views/HomeView/Home.container';
 import LoginView from './views/LoginView/LoginView.container';
+import WithLoadingSpinner from './commonComponents/LoadingSpinner/LoadingSpinner.container';
 
 ReactDOM.render(
 	<Provider store={store}>
 		<Router>
-			<Switch>
-				<Route
-					path='/login'
-					exact
-					component={LoginView}
-				/>
-				<PrivateRoute>
+			<WithLoadingSpinner>
+				<Switch>
 					<Route
-						path="/"
-						component={Home}
+						path='/login'
+						exact
+						component={LoginView}
 					/>
-				</PrivateRoute>
-			</Switch>
+					<PrivateRoute>
+						<Route
+							path="/"
+							component={Home}
+						/>
+					</PrivateRoute>
+				</Switch>
+			</WithLoadingSpinner>
 		</Router>
 	</Provider>,
 	// eslint-disable-next-line no-undef
