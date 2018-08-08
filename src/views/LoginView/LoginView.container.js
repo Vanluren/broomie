@@ -22,6 +22,14 @@ class LoginView extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 	
+	componentDidUpdate(prevProps) {
+		const { isLoggedIn, history } = this.props;
+		if (isLoggedIn !== prevProps.isLoggedIn){
+			history.push('/');
+		}
+	}
+	
+	
 	handleInputFieldChange(fieldName) {
 		return event => {
 			this.setState({ [fieldName]: event.target.value });
@@ -81,15 +89,20 @@ LoginView.propTypes = {
 	errorMessage: PropType.string,
 	actions: PropType.shape({
 		userLogin: PropType.func.isRequired,
-	}).isRequired
+	}).isRequired,
+	isLoggedIn: PropType.bool.isRequired,
+// eslint-disable-next-line react/forbid-prop-types
+	history: PropType.object
 };
 
 LoginView.defaultProps = {
 	errorType: null,
 	errorMessage: null,
+	history: null
 };
 
 const mapStateToProps = (state) => ({
+	isLoggedIn: state.auth.isLoggedIn,
 	errorType: state.auth.error.type,
 	errorMessage: state.auth.error.message,
 });

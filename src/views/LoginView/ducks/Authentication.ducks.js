@@ -2,11 +2,12 @@ import firebaseAuth from '../../../services/firebase/authentication';
 import { LOGIN_ERROR, USER_LOGIN } from '../../../services/redux/actionTypes';
 
 export const userLogin = (username, password) => async (dispatch) => {
-	dispatch({
-		type: USER_LOGIN
-	});
 	firebaseAuth
 		.signInWithEmailAndPassword(username, password)
+		.then(
+			() => dispatch({
+					type: USER_LOGIN
+				}))
 		.catch(
 			(error) => {
 				dispatch(handleLoginError(error.code));
