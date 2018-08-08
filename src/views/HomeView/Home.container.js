@@ -1,20 +1,54 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 //import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
+import { Col, Container, Row } from 'reactstrap';
+import Skader from '../SkaderView/Skader.container';
+import Klager from '../KlagerView/KlagerView.container';
+import Header from '../../commonComponents/Header/Header.container';
+import SidebarMenu from '../../commonComponents/SidebarMenu/SidebarMenu.container';
+import { fetchAllTickets } from './ducks/Home.ducks';
 
-const Home = ({ data }) => {
-	if (!data.isFetching){
+class Home extends Component {
+	constructor(props) {
+		super(props);
+		this.props.fetchAllTickets()
+	}
+	
+	render() {
+		const SwitchRouter =
+			<Switch>
+				<Route
+					path='/skader'
+					component={Skader}
+					exact
+				/>
+				<Route
+					path='/klager'
+					component={Klager}
+					exact
+				/>
+			</Switch>;
+		
 		return (
-			<h1>Firebase has been fetched</h1>
+			<Container fluid>
+				<Row>
+					<Header />
+				</Row>
+				<Row>
+					<SidebarMenu />
+					<Col md={{ size: 10, offset: 2 }}>
+						{SwitchRouter}
+					</Col>
+				</Row>
+			</Container>
 		);
 	}
-	return (
-		<h1>Firebase is fetching</h1>
-	);
-};
+}
 
 Home.propTypes = {
+// eslint-disable-next-line react/no-unused-prop-types
 	data: PropTypes.shape({
 		isFetching: PropTypes.bool.isRequired,
 		tickets: PropTypes.shape(
@@ -23,14 +57,22 @@ Home.propTypes = {
 				klager: PropTypes.array.isRequired,
 			}
 		).isRequired,
-	}).isRequired
+	}),
+	fetchAllTickets: PropTypes.func.isRequired
 };
-// Home.defaultProps = {};
+Home.defaultProps = {
+	data: null
+};
 
 const mapStateToProps = state => ({
 	data: state.data,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+	fetchAllTickets: () => dispatch(fetchAllTickets())
+});
+
 export default connect(
-	mapStateToProps
+	mapStateToProps,
+	mapDispatchToProps
 )(Home);
