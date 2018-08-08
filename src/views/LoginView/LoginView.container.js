@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap';
 import LoginLogo from './components/Logo';
 import LoginForm from './components/LoginForm';
-import { userLogin } from './ducks/Atuhentication.ducks';
+import { userLogin } from './ducks/Authentication.ducks';
 
 
 const initialState = {
