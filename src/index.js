@@ -9,6 +9,7 @@ import store from './services/redux/reduxStore';
 import PrivateRoute from './commonComponents/PrivateRoute/PrivateRoute.container';
 import registerServiceWorker from './registerServiceWorker';
 import Home from './views/HomeView/Home.container';
+import LoginView from './views/LoginView/LoginView.container';
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -17,7 +18,7 @@ ReactDOM.render(
 				<Route
 					path='/login'
 					exact
-					component={() => (<div>Login</div>)}
+					component={LoginView}
 				/>
 				<PrivateRoute>
 					<Route
