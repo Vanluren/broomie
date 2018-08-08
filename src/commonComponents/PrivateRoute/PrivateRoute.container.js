@@ -1,21 +1,22 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-
-const userLoading = false;
-const user = false;
+import { connect } from 'react-redux';
 
 class PrivateRoute extends Component {
 	
 	componentDidUpdate() {
-		if (!userLoading && !user || user === undefined){
+		const { isFetchingUser, userData, isLoggedIn } = this.props;
+		
+		if (!isLoggedIn && !isFetchingUser && !userData || userData === undefined){
 			this.props.history.push('/login');
 		}
 	}
 	
 	render() {
-		const { children } = this.props;
-		return (!userLoading && user) ? <div>{children}</div> :
+		const { children, isFetchingUser, userData, isLoggedIn } = this.props;
+		return (isLoggedIn && !isFetchingUser && userData) ? <div>{children}</div> :
 		       <Redirect
 			       to={{
 				       pathname: "/login",
@@ -30,15 +31,23 @@ PrivateRoute.propTypes = {
 		PropTypes.arrayOf(PropTypes.node),
 		PropTypes.node
 	]),
-	// eslint-disable-next-line react/forbid-prop-types
 	history: PropTypes.object,
-	// eslint-disable-next-line react/forbid-prop-types
 	location: PropTypes.object,
+	isFetchingUser: PropTypes.bool.isRequired,
+	userData: PropTypes.object,
+	isLoggedIn: PropTypes.bool.isRequired
 };
 PrivateRoute.defaultProps = {
 	history: null,
 	location: null,
-	children: null
+	children: null,
+	userData: null,
 };
 
-export default PrivateRoute;
+const mapStateToProps = (state) => ({
+	isLoggedIn: state.auth.isLoggedIn,
+	isFetchingUser: state.auth.isFetchingUser,
+	userData: state.auth.userData
+});
+
+export default connect(mapStateToProps)(PrivateRoute);
