@@ -1,13 +1,13 @@
 import firebaseAuth from '../../../services/firebase/authentication';
-import { LOGIN_ERROR, USER_LOGIN } from '../../../services/redux/actionTypes';
+import { FETCH_USER, IS_FETCHING_STATUS, LOGIN_ERROR, USER_LOGIN, } from '../../../services/redux/actionTypes';
 
 export const userLogin = (username, password) => async (dispatch) => {
 	firebaseAuth
 		.signInWithEmailAndPassword(username, password)
 		.then(
 			() => dispatch({
-					type: USER_LOGIN
-				}))
+				type: USER_LOGIN
+			}))
 		.catch(
 			(error) => {
 				dispatch(handleLoginError(error.code));
@@ -42,12 +42,37 @@ const handleLoginError = (type) => dispatch => {
 				message: USER_NOT_EXIST
 			};
 	}
-	
 	dispatch({
 		type: LOGIN_ERROR,
 		error
 	})
 };
+
+export const fetchUser = () => dispatch => {
+	dispatch({
+		type: IS_FETCHING_STATUS,
+		status: true
+	});
+	firebaseAuth
+		.onAuthStateChanged(
+			(user) => {
+				if (user){
+					dispatch({
+						type: FETCH_USER,
+						user
+					});
+				} else {
+					dispatch({
+						type: LOGIN_ERROR
+					})
+				}
+				dispatch({
+					type: IS_FETCHING_STATUS,
+					status: false
+				});
+			});
+};
+
 
 const DEFAULT_STATE = {
 	isLoggedIn: false,
@@ -71,6 +96,14 @@ const reducer = (state = DEFAULT_STATE, action) => {
 					message: null
 				}
 			};
+		case FETCH_USER:
+			return {
+				...state,
+				isLoggedIn: true,
+				userData: action.user
+			};
+		case IS_FETCHING_STATUS:
+			return { ...state, isFetchingUser: action.status };
 		case LOGIN_ERROR:
 			return {
 				...state,
