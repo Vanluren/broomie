@@ -7,7 +7,6 @@ import LoginLogo from './components/Logo';
 import LoginForm from './components/LoginForm';
 import { userLogin } from './ducks/Authentication.ducks';
 
-
 const initialState = {
 	username: '',
 	password: '',
@@ -22,13 +21,19 @@ class LoginView extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 	
+	componentDidMount() {
+		const { userData, isLoggedIn } = this.props;
+		if (isLoggedIn && userData || userData !== undefined){
+			this.props.history.push('/');
+		}
+	}
+	
 	componentDidUpdate(prevProps) {
 		const { isLoggedIn, history } = this.props;
 		if (isLoggedIn !== prevProps.isLoggedIn){
 			history.push('/');
 		}
 	}
-	
 	
 	handleInputFieldChange(fieldName) {
 		return event => {
@@ -85,17 +90,19 @@ const LoginWrapper = styled(Col)`
 `;
 
 LoginView.propTypes = {
+	isLoggedIn: PropType.bool.isRequired,
+	userData: PropType.shape(),
 	errorType: PropType.string,
 	errorMessage: PropType.string,
 	actions: PropType.shape({
 		userLogin: PropType.func.isRequired,
 	}).isRequired,
-	isLoggedIn: PropType.bool.isRequired,
-// eslint-disable-next-line react/forbid-prop-types
+	// eslint-disable-next-line react/forbid-prop-types
 	history: PropType.object
 };
 
 LoginView.defaultProps = {
+	userData: null,
 	errorType: null,
 	errorMessage: null,
 	history: null
@@ -103,6 +110,7 @@ LoginView.defaultProps = {
 
 const mapStateToProps = (state) => ({
 	isLoggedIn: state.auth.isLoggedIn,
+	userData: state.auth.userData,
 	errorType: state.auth.error.type,
 	errorMessage: state.auth.error.message,
 });
