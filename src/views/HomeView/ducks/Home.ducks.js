@@ -13,6 +13,12 @@ const requestAllTickets = () => ({
 	type: REQUEST_ALL_TICKETS
 });
 
+const receiveAllTickets = (tickets) => ({
+	type: RECEIVE_ALL_TICKETS,
+	tickets,
+	receivedAt: Date.now()
+});
+
 export const fetchAllTickets = () => dispatch => {
 	dispatch(requestAllTickets());
 	firestore
@@ -23,29 +29,17 @@ export const fetchAllTickets = () => dispatch => {
 			const tickets = [];
 			snapshot.forEach((doc) => {
 				tickets.push(doc.data());
-			})
+			});
 			return dispatch(receiveAllTickets(tickets));
 		})
 		.catch((error) => {
+// eslint-disable-next-line no-console
 				console.log("Error getting documents: ", error);
 			}
 		);
 };
 
-const sortByTicketsByType = (ticketsArr, type) => ticketsArr.filter((ticket) => {
-	if (ticket.type === type){
-		return true;
-	}
-	return false;
-});
-
-const receiveAllTickets = (tickets) => ({
-	type: RECEIVE_ALL_TICKETS,
-	tickets,
-	receivedAt: Date.now()
-});
-
-
+const sortByTicketsByType = (ticketsArr, type) => ticketsArr.filter((ticket) => ticket.type === type);
 
 const reducer = (state = DEFAULT_STATE, action) => {
 	switch (action.type){
@@ -53,7 +47,7 @@ const reducer = (state = DEFAULT_STATE, action) => {
 			return {
 				...state,
 				isFetching: true,
-			}
+			};
 		case RECEIVE_ALL_TICKETS:
 			return {
 				...state,
@@ -63,7 +57,7 @@ const reducer = (state = DEFAULT_STATE, action) => {
 					klager: sortByTicketsByType(action.tickets, 'klage'),
 				},
 				lastUpdated: action.receivedAt
-			}
+			};
 		default:
 			return state;
 	}

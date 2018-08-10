@@ -2,42 +2,56 @@ import React from 'react';
 import PropTypes from 'prop-types';
 //import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
+import { Col, Container, Row } from 'reactstrap';
+import Skader from '../SkaderView/Skader.container';
+import Klager from '../KlagerView/KlagerView.container';
+import Header from '../../commonComponents/Header/Header.container';
+import SidebarMenu from '../../commonComponents/SidebarMenu/SidebarMenu.container';
+import { fetchAllTickets } from './ducks/Home.ducks';
 import { Container } from 'reactstrap';
 import TicketCard from '../../commonComponents/TicketCard/TicketCard.container';
 
-const Home = ({ data }) => {
+class Home extends Component {
+	
+	componentDidMount() {
+		const {isLoggedIn, userData} = this.props;
 		
-		const renderTicketRows = () => {
-			const ticketArr = [];
-			const tickets = data.tickets.skader
-			tickets.forEach((ticket) => {
-				const content = ticket.ticketContent;
-				ticketArr.push(
-					<TicketCard
-						key={ticket.timeCreated}
-						desc={content.desc}
-						location={content.location}
-						priority={content.priority}
-						date={ticket.timeCreated}
-					/>
-				);
-			});
-			
-			return ticketArr;
+		if (isLoggedIn && (userData !== null || userData !== undefined)){
+			this.props.fetchAllTickets();
 		}
-		if (data.isFetching){
-			return (
-				<h1>Firebase is been fetching</h1>
-			);
-		}
+	}
+	
+	render() {
+		const SwitchRouter =
+			<Switch>
+				<Route
+					path='/skader'
+					component={Skader}
+					exact
+				/>
+				<Route
+					path='/klager'
+					component={Klager}
+					exact
+				/>
+			</Switch>;
+		
 		return (
-			<Container
-			>
-				{renderTicketRows()}
+			<Container fluid>
+				<Row>
+					<Header />
+				</Row>
+				<Row>
+					<SidebarMenu />
+					<Col md={{ size: 10, offset: 2 }}>
+						{SwitchRouter}
+					</Col>
+				</Row>
 			</Container>
 		);
 	}
-;
+}
 
 Home.propTypes = {
 	data: PropTypes.shape({
@@ -48,14 +62,28 @@ Home.propTypes = {
 				klager: PropTypes.array.isRequired,
 			}
 		).isRequired,
-	}).isRequired
+	}),
+	fetchAllTickets: PropTypes.func.isRequired,
+	isLoggedIn: PropTypes.bool.isRequired,
+// eslint-disable-next-line react/forbid-prop-types
+	userData: PropTypes.object
 };
-// Home.defaultProps = {};
+Home.defaultProps = {
+	data: null,
+	userData: null || undefined
+};
 
 const mapStateToProps = state => ({
+	isLoggedIn: state.auth.isLoggedIn,
+	userData: state.auth.userData,
 	data: state.data,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+	fetchAllTickets: () => dispatch(fetchAllTickets())
+});
+
 export default connect(
-	mapStateToProps
+	mapStateToProps,
+	mapDispatchToProps
 )(Home);
