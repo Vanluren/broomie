@@ -1,4 +1,5 @@
 import firebaseAuth from '../../../services/firebase/authentication';
+import firestore from '../../../services/firebase/firestore';
 import {
 	FETCH_USER,
 	IS_FETCHING_STATUS,
@@ -69,10 +70,30 @@ export const fetchUser = () => dispatch => {
 		.onAuthStateChanged(
 			(user) => {
 				if (user){
-					dispatch({
-						type: FETCH_USER,
-						user
-					});
+					firestore
+						.doc(`/users/${user.uid}/`)
+						.get()
+						.then(
+							(doc) => {
+								const deps = doc.data().departements;
+								
+								const userObj = {
+									uid: user.uid,
+									displayName: user.displayName,
+									phoneNumber: user.phoneNumber,
+									email: user.email,
+									image: user.photoURL,
+									visibleDeps: deps
+								};
+								
+								return dispatch({
+									type: FETCH_USER,
+									user: userObj
+								});
+							})
+						.catch(
+							(error) => console.error(error)
+						);
 				} else {
 					dispatch(handleLoginError('not-logged-in'));
 				}
