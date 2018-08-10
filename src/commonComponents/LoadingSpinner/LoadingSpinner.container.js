@@ -12,14 +12,14 @@ class LoadingSpinner extends Component {
 	
 	componentDidMount() {
 		const { userData, actions } = this.props;
-		if (!userData || userData === undefined){
+		if (!userData || userData === null || userData === undefined){
 			actions.fetchUser();
 		}
 	};
 	
 	render() {
-		const { isFetchingUser, userData, children } = this.props;
-		if ((!isFetchingUser) || (userData !== null)){
+		const { isFetchingUser, children } = this.props;
+		if (!isFetchingUser){
 			return (
 				<div>
 					{children}
@@ -61,6 +61,7 @@ LoadingSpinner.defaultProps = {
 const mapStateToProps = state => ({
 	isFetchingUser: state.auth.isFetchingUser,
 	userData: state.auth.userData,
+	isLoggedIn: state.auth.isLoggedIn
 });
 
 const mapDispatchToProps = dispatch => ({
