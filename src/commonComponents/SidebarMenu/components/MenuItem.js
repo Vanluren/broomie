@@ -12,7 +12,9 @@ const MenuItem = ({ link, itemName, num, }) => {
 	}
 	// eslint-disable-next-line react/prop-types
 	const Item = ({ match }) => (
-		<ItemWrapper active={match}>
+		<ItemWrapper
+			active={match}
+		>
 			<StyledNavLink
 				exact
 				to={link}
@@ -55,6 +57,7 @@ MenuItem.propTypes = {
 	link: PropTypes.string.isRequired,
 	itemName: PropTypes.string.isRequired,
 	num: PropTypes.number,
+// eslint-disable-next-line react/no-unused-prop-types
 	match: PropTypes.bool
 };
 MenuItem.defaultProps = {
