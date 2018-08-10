@@ -1,5 +1,11 @@
 import firebaseAuth from '../../../services/firebase/authentication';
-import { FETCH_USER, IS_FETCHING_STATUS, LOGIN_ERROR, USER_LOGIN, } from '../../../services/redux/actionTypes';
+import {
+	FETCH_USER,
+	IS_FETCHING_STATUS,
+	LOGIN_ERROR,
+	USER_LOGIN,
+	USER_LOGOUT,
+} from '../../../services/redux/actionTypes';
 
 export const userLogin = (username, password) => async (dispatch) => {
 	firebaseAuth
@@ -36,6 +42,12 @@ const handleLoginError = (type) => dispatch => {
 				message: PASSWORD_INCORRECT
 			};
 			break;
+		case 'not-logged-in':
+			error = {
+				type: '',
+				message: ''
+			};
+			break;
 		default:
 			error = {
 				type: USER,
@@ -62,15 +74,20 @@ export const fetchUser = () => dispatch => {
 						user
 					});
 				} else {
-					dispatch({
-						type: LOGIN_ERROR
-					})
+					dispatch(handleLoginError('not-logged-in'));
 				}
 				dispatch({
 					type: IS_FETCHING_STATUS,
 					status: false
 				});
 			});
+};
+
+export const userLogOut = () => {
+	firebaseAuth.signOut();
+	return ({
+		type: USER_LOGOUT,
+	})
 };
 
 
@@ -95,6 +112,12 @@ const reducer = (state = DEFAULT_STATE, action) => {
 					type: null,
 					message: null
 				}
+			};
+		case USER_LOGOUT:
+			return {
+				...state,
+				isLoggedIn: false,
+				userData: null,
 			};
 		case FETCH_USER:
 			return {

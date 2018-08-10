@@ -23,7 +23,7 @@ class LoginView extends Component {
 	
 	componentDidMount() {
 		const { userData, isLoggedIn } = this.props;
-		if (isLoggedIn && userData || userData !== undefined){
+		if (isLoggedIn && (userData !== null || userData !== undefined)){
 			this.props.history.push('/');
 		}
 	}
