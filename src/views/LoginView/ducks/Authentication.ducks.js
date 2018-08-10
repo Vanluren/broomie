@@ -86,21 +86,22 @@ export const fetchUser = () => dispatch => {
 									visibleDeps: deps
 								};
 								
-								return dispatch({
+								dispatch({
 									type: FETCH_USER,
 									user: userObj
 								});
+								
+								return dispatch({
+									type: IS_FETCHING_STATUS,
+									status: false
+								});
 							})
 						.catch(
-							(error) => console.error(error)
+							(error) => console.error('Could not fetch user data from firestore: ', error)
 						);
 				} else {
 					dispatch(handleLoginError('not-logged-in'));
 				}
-				dispatch({
-					type: IS_FETCHING_STATUS,
-					status: false
-				});
 			});
 };
 
