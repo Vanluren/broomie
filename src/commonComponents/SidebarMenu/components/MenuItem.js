@@ -58,7 +58,7 @@ MenuItem.propTypes = {
 	itemName: PropTypes.string.isRequired,
 	num: PropTypes.number,
 // eslint-disable-next-line react/no-unused-prop-types
-	match: PropTypes.bool.isRequired
+	match: PropTypes.bool
 };
 MenuItem.defaultProps = {
 	match: null,
