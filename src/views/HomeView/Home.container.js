@@ -11,9 +11,13 @@ import SidebarMenu from '../../commonComponents/SidebarMenu/SidebarMenu.containe
 import { fetchAllTickets } from './ducks/Home.ducks';
 
 class Home extends Component {
-	constructor(props) {
-		super(props);
-		this.props.fetchAllTickets()
+	
+	componentDidMount() {
+		const {isLoggedIn, userData} = this.props;
+		
+		if (isLoggedIn && (userData !== null || userData !== undefined)){
+			this.props.fetchAllTickets();
+		}
 	}
 	
 	render() {
@@ -48,7 +52,7 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-// eslint-disable-next-line react/no-unused-prop-types
+	// eslint-disable-next-line react/no-unused-prop-types
 	data: PropTypes.shape({
 		isFetching: PropTypes.bool.isRequired,
 		tickets: PropTypes.shape(
@@ -58,13 +62,19 @@ Home.propTypes = {
 			}
 		).isRequired,
 	}),
-	fetchAllTickets: PropTypes.func.isRequired
+	fetchAllTickets: PropTypes.func.isRequired,
+	isLoggedIn: PropTypes.bool.isRequired,
+// eslint-disable-next-line react/forbid-prop-types
+	userData: PropTypes.object
 };
 Home.defaultProps = {
-	data: null
+	data: null,
+	userData: null || undefined
 };
 
 const mapStateToProps = state => ({
+	isLoggedIn: state.auth.isLoggedIn,
+	userData: state.auth.userData,
 	data: state.data,
 });
 
