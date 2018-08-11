@@ -2,7 +2,7 @@ import { RECEIVE_ALL_TICKETS, REQUEST_ALL_TICKETS } from '../../../services/redu
 import firestore from '../../../services/firebase/firestore';
 
 const DEFAULT_STATE = {
-	isFetching: false,
+	isFetchingTickets: false,
 	tickets: {
 		skader: [],
 		klager: [],
@@ -13,30 +13,43 @@ const requestAllTickets = () => ({
 	type: REQUEST_ALL_TICKETS
 });
 
-const receiveAllTickets = (tickets) => ({
-	type: RECEIVE_ALL_TICKETS,
-	tickets,
-	receivedAt: Date.now()
-});
+const receiveAllTickets = (ticketArray) => {
+	const tickets = {
+		skader: sortByTicketsByType(ticketArray, 'skade'),
+		klager: sortByTicketsByType(ticketArray, 'klage'),
+	};
+	return ({
+		type: RECEIVE_ALL_TICKETS,
+		tickets,
+		receivedAt: Date.now()
+	});
+};
 
-export const fetchAllTickets = () => dispatch => {
+export const fetchAllTickets = (depArray) => (dispatch) => {
 	dispatch(requestAllTickets());
-	firestore
-		.collection('/departments/76/tickets')
-		.where('archived', '==', false)
-		.get()
-		.then(snapshot => {
-			const tickets = [];
-			snapshot.forEach((doc) => {
-				tickets.push(doc.data());
-			});
-			return dispatch(receiveAllTickets(tickets));
-		})
-		.catch((error) => {
-// eslint-disable-next-line no-console
-				console.log("Error getting documents: ", error);
-			}
-		);
+	const tickets = [];
+	let counter = 0;
+	depArray.forEach(async (element) => {
+		const currentDepRef = `departments/${element}/tickets`;
+		firestore
+			.collection(currentDepRef)
+			.where('archived', '==', false)
+			.get()
+			.then(
+				snapshot => {
+					snapshot.forEach((doc) => tickets.push(doc.data()));
+					counter+=1;
+					if(counter === depArray.length){
+						dispatch(receiveAllTickets(tickets));
+					}
+					return counter;
+				})
+			.catch((error) => {
+					// eslint-disable-next-line no-console
+					console.log("Error getting documents: ", error);
+				}
+			);
+	});
 };
 
 const sortByTicketsByType = (ticketsArr, type) => ticketsArr.filter((ticket) => ticket.type === type);
@@ -46,16 +59,13 @@ const reducer = (state = DEFAULT_STATE, action) => {
 		case REQUEST_ALL_TICKETS:
 			return {
 				...state,
-				isFetching: true,
+				isFetchingTickets: true,
 			};
 		case RECEIVE_ALL_TICKETS:
 			return {
 				...state,
-				isFetching: false,
-				tickets: {
-					skader: sortByTicketsByType(action.tickets, 'skade'),
-					klager: sortByTicketsByType(action.tickets, 'klage'),
-				},
+				isFetchingTickets: false,
+				tickets: action.tickets,
 				lastUpdated: action.receivedAt
 			};
 		default:
