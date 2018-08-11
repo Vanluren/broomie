@@ -24,14 +24,14 @@ class LoginView extends Component {
 	componentDidMount() {
 		const { userData, isLoggedIn } = this.props;
 		if (isLoggedIn && (userData !== null || userData !== undefined)){
-			this.props.history.push('/');
+			this.props.history.push(this.props.location.state.from);
 		}
 	}
 	
 	componentDidUpdate(prevProps) {
 		const { isLoggedIn, history } = this.props;
 		if (isLoggedIn !== prevProps.isLoggedIn){
-			history.push('/');
+			history.push(this.props.location.state.from);
 		}
 	}
 	
@@ -97,8 +97,12 @@ LoginView.propTypes = {
 	actions: PropType.shape({
 		userLogin: PropType.func.isRequired,
 	}).isRequired,
-	// eslint-disable-next-line react/forbid-prop-types
-	history: PropType.object
+	history: PropType.shape({
+		push: PropType.func,
+	}),
+	location: PropType.shape({
+		state: PropType.object,
+	}).isRequired
 };
 
 LoginView.defaultProps = {
