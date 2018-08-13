@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 //import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -9,16 +9,16 @@ import Klager from '../KlagerView/KlagerView.container';
 import Header from '../../commonComponents/Header/Header.container';
 import SidebarMenu from '../../commonComponents/SidebarMenu/SidebarMenu.container';
 import { fetchAllTickets } from './ducks/Home.ducks';
-import { Container } from 'reactstrap';
-import TicketCard from '../../commonComponents/TicketCard/TicketCard.container';
+import TicketView from '../TicketView/TicketView.container';
 
 class Home extends Component {
 	
 	componentDidMount() {
-		const {isLoggedIn, userData} = this.props;
+// eslint-disable-next-line no-shadow
+		const { isLoggedIn, userData, fetchAllTickets } = this.props;
 		
 		if (isLoggedIn && (userData !== null || userData !== undefined)){
-			this.props.fetchAllTickets();
+			fetchAllTickets(userData.visibleDeps);
 		}
 	}
 	
@@ -81,7 +81,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	fetchAllTickets: () => dispatch(fetchAllTickets())
+	fetchAllTickets: (depNumber) => dispatch(fetchAllTickets(depNumber))
 });
 
 export default connect(
