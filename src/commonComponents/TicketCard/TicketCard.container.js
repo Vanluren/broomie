@@ -67,13 +67,16 @@ const Info = styled.div`
 
 TicketCard.propTypes = {
 	desc: PropTypes.string.isRequired,
-	location: PropTypes.string.isRequired,
-	priority: PropTypes.string.isRequired,
-	date: PropTypes.instanceOf(Date).isRequired,
+	location: PropTypes.string,
+	priority: PropTypes.string,
+	date: PropTypes.shape(Date).isRequired,
 	onClickHandler: PropTypes.func.isRequired,
 	type: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired
 };
-TicketCard.defaultProps = {};
+TicketCard.defaultProps = {
+	location: null || undefined,
+	priority: null || undefined
+};
 
 export default TicketCard;
