@@ -7,8 +7,8 @@ export const getNumberOfTickets = createSelector(
 	(tickets) => {
 		if (tickets === null || tickets === undefined){
 			return ({
-				numSkader: 0,
-				numKlager: 0,
+				numSkader: null,
+				numKlager: null,
 			});
 		}
 		const returnTicketType = (key, type) => tickets[key].type === type;
