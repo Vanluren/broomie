@@ -1,33 +1,20 @@
-import { RECEIVE_ALL_TICKETS, REQUEST_ALL_TICKETS } from '../../../services/redux/actionTypes';
+import { RECEIVE_ALL_TICKETS, REQUEST_ALL_TICKETS, VIEW_TICKET } from '../../../services/redux/actionTypes';
 import firestore from '../../../services/firebase/firestore';
 
 const DEFAULT_STATE = {
 	isFetchingTickets: false,
-	tickets: {
-		skader: [],
-		klager: [],
-	},
+	tickets: null,
+	viewingTicket: null,
 };
 
 const requestAllTickets = () => ({
 	type: REQUEST_ALL_TICKETS
 });
 
-const receiveAllTickets = (ticketArray) => {
-	const tickets = {
-		skader: sortByTicketsByType(ticketArray, 'skade'),
-		klager: sortByTicketsByType(ticketArray, 'klage'),
-	};
-	return ({
-		type: RECEIVE_ALL_TICKETS,
-		tickets,
-		receivedAt: Date.now()
-	});
-};
 
 export const fetchAllTickets = (depArray) => (dispatch) => {
 	dispatch(requestAllTickets());
-	const tickets = [];
+	const tickets = {};
 	let counter = 0;
 	depArray.forEach(async (element) => {
 		const currentDepRef = `departments/${element}/tickets`;
@@ -37,10 +24,14 @@ export const fetchAllTickets = (depArray) => (dispatch) => {
 			.get()
 			.then(
 				snapshot => {
-					snapshot.forEach((doc) => tickets.push(doc.data()));
-					counter+=1;
-					if(counter === depArray.length){
-						dispatch(receiveAllTickets(tickets));
+					snapshot.forEach((doc)=> {tickets[doc.id] = doc.data()});
+					counter += 1;
+					if (counter === depArray.length){
+						dispatch({
+							type: RECEIVE_ALL_TICKETS,
+							tickets,
+							receivedAt: Date.now()
+						});
 					}
 					return counter;
 				})
@@ -52,7 +43,11 @@ export const fetchAllTickets = (depArray) => (dispatch) => {
 	});
 };
 
-const sortByTicketsByType = (ticketsArr, type) => ticketsArr.filter((ticket) => ticket.type === type);
+
+export const viewTicket = ticketID => ({
+	type: VIEW_TICKET,
+	ticketID,
+});
 
 const reducer = (state = DEFAULT_STATE, action) => {
 	switch (action.type){
@@ -67,6 +62,11 @@ const reducer = (state = DEFAULT_STATE, action) => {
 				isFetchingTickets: false,
 				tickets: action.tickets,
 				lastUpdated: action.receivedAt
+			};
+		case VIEW_TICKET:
+			return {
+				...state,
+				viewingTicket: action.ticketID
 			};
 		default:
 			return state;

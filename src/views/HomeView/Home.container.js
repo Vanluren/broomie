@@ -35,6 +35,16 @@ class Home extends Component {
 					component={Klager}
 					exact
 				/>
+				<Route
+					path='/skade/:id'
+					component={TicketView}
+					exact
+				/>
+				<Route
+					path='/klage/:id'
+					component={TicketView}
+					exact
+				/>
 			</Switch>;
 		
 		return (
@@ -44,7 +54,7 @@ class Home extends Component {
 				</Row>
 				<Row>
 					<SidebarMenu />
-					<Col md={{ size: 10, offset: 2 }}>
+					<Col md={{ size: 10, offset: 1 }}>
 						{SwitchRouter}
 					</Col>
 				</Row>
@@ -54,18 +64,9 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-	data: PropTypes.shape({
-		isFetching: PropTypes.bool.isRequired,
-		tickets: PropTypes.shape(
-			{
-				skader: PropTypes.array.isRequired,
-				klager: PropTypes.array.isRequired,
-			}
-		).isRequired,
-	}),
 	fetchAllTickets: PropTypes.func.isRequired,
 	isLoggedIn: PropTypes.bool.isRequired,
-// eslint-disable-next-line react/forbid-prop-types
+	// eslint-disable-next-line react/forbid-prop-types
 	userData: PropTypes.object
 };
 Home.defaultProps = {
