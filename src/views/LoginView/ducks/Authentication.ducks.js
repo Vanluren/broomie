@@ -97,6 +97,8 @@ export const fetchUser = () => dispatch => {
 								});
 							})
 						.catch(
+							//TODO: ADD ERRORHANDLING!
+							// eslint-disable-next-line no-console
 							(error) => console.error('Could not fetch user data from firestore: ', error)
 						);
 				} else {
@@ -153,7 +155,8 @@ const reducer = (state = DEFAULT_STATE, action) => {
 			return {
 				...state,
 				isLoggedIn: false,
-				error: action.error
+				error: action.error,
+				isFetchingUser: false
 			};
 		default:
 			return state;
