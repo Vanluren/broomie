@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 //import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
-import Skader from '../SkaderView/Skader.container';
-import Klager from '../KlagerView/KlagerView.container';
 import Header from '../../commonComponents/Header/Header.container';
 import SidebarMenu from '../../commonComponents/SidebarMenu/SidebarMenu.container';
 import { fetchAllTickets } from './ducks/Home.ducks';
-import TicketView from '../TicketView/TicketView.container';
+import TicketOverView from '../TicketOverView/TicketOverView.container';
+import TicketTypeNavigation from '../../commonComponents/TicketTypeNav/TicketTypeNavigation.container';
+import { Routes } from '../../services/router/router';
 
 class Home extends Component {
 	
 	componentDidMount() {
-// eslint-disable-next-line no-shadow
+		// eslint-disable-next-line no-shadow
 		const { isLoggedIn, userData, fetchAllTickets } = this.props;
 		
 		if (isLoggedIn && (userData !== null || userData !== undefined)){
@@ -26,23 +26,28 @@ class Home extends Component {
 		const SwitchRouter =
 			<Switch>
 				<Route
-					path='/skader'
-					component={Skader}
+					path={Routes.HOME.path}
+					component={TicketOverView}
 					exact
 				/>
 				<Route
-					path='/klager'
-					component={Klager}
+					path={Routes.SKADER.path}
+					component={Routes.SKADER.component}
 					exact
 				/>
 				<Route
-					path='/skade/:id'
-					component={TicketView}
+					path={Routes.KLAGER.path}
+					component={Routes.KLAGER.component}
 					exact
 				/>
 				<Route
-					path='/klage/:id'
-					component={TicketView}
+					path={Routes.TICKET.SKADE.path}
+					component={Routes.TICKET.SKADE.component}
+					exact
+				/>
+				<Route
+					path={Routes.TICKET.KLAGE.path}
+					component={Routes.TICKET.KLAGE.component}
 					exact
 				/>
 			</Switch>;
@@ -55,6 +60,7 @@ class Home extends Component {
 				<Row>
 					<SidebarMenu />
 					<Col md={{ size: 10, offset: 1 }}>
+						<TicketTypeNavigation />
 						{SwitchRouter}
 					</Col>
 				</Row>
@@ -84,7 +90,7 @@ const mapDispatchToProps = (dispatch) => ({
 	fetchAllTickets: (depNumber) => dispatch(fetchAllTickets(depNumber))
 });
 
-export default connect(
+export default withRouter(connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Home);
+)(Home));

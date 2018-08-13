@@ -15,7 +15,6 @@ class Skader extends Component {
 		this.onTicketClick = this.onTicketClick.bind(this);
 	}
 	
-	
 	renderTicketRows() {
 		const ticketCardArr = [];
 		const tickets = this.props.tickets;
