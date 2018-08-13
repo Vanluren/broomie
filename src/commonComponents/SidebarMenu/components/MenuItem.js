@@ -3,36 +3,30 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { NavLink, Route } from 'react-router-dom';
 
-const MenuItem = ({ link, itemName, num, }) => {
-	let MENU_TITLE;
-	if (num > 0){
-		MENU_TITLE = `${itemName} (${num})`;
-	} else {
-		MENU_TITLE = `${itemName}`;
+const MenuItem = ({ path, itemName, location }) => {
+	let isActive = false;
+	if (location.pathname === path || (location.pathname === '/' && '/skader' || '/klager')){
+		isActive = true;
 	}
-	// eslint-disable-next-line react/prop-types
-	const Item = ({ match }) => (
-		<ItemWrapper
-			active={match}
-		>
-			<StyledNavLink
-				exact
-				to={link}
-			>
-				{MENU_TITLE}
-			</StyledNavLink>
-		</ItemWrapper>
-	);
 	
 	return (
 		<Route
-			path={link}
+			path={path}
 			exact
 		>
-			{Item}
+			<ItemWrapper
+				active={isActive}
+			>
+				<StyledNavLink
+					to={path}
+				>
+					{itemName}
+				</StyledNavLink>
+			</ItemWrapper>
 		</Route>
 	);
-}
+};
+
 const ItemWrapper = styled.li`
 	width: 100%;
 	display: flex;
@@ -54,11 +48,11 @@ const StyledNavLink = styled(NavLink)`
     }
 `;
 MenuItem.propTypes = {
-	link: PropTypes.string.isRequired,
+	path: PropTypes.string.isRequired,
 	itemName: PropTypes.string.isRequired,
-	num: PropTypes.number,
-// eslint-disable-next-line react/no-unused-prop-types
-	match: PropTypes.bool
+	location: PropTypes.shape({
+		pathname: PropTypes.string
+	}).isRequired,
 };
 MenuItem.defaultProps = {
 	match: null,
