@@ -6,6 +6,7 @@ import { Col, Container, Row } from 'reactstrap';
 import LoginLogo from './components/Logo';
 import LoginForm from './components/LoginForm';
 import { userLogin } from './ducks/Authentication.ducks';
+import { Routes } from '../../services/router/router';
 
 const initialState = {
 	username: '',
@@ -22,16 +23,27 @@ class LoginView extends Component {
 	}
 	
 	componentDidMount() {
-		const { userData, isLoggedIn } = this.props;
+		const { userData, isLoggedIn, location, history } = this.props;
 		if (isLoggedIn && (userData !== null || userData !== undefined)){
-			this.props.history.push(this.props.location.state.from);
+			if(location.state === null || location.state === undefined){
+				history.push(Routes.HOME.path);
+			}else{
+				history.push(location.state.from);
+			}
+			
+		}else{
+			history.push(Routes.LOGIN.path);
 		}
 	}
 	
 	componentDidUpdate(prevProps) {
-		const { isLoggedIn, history } = this.props;
+		const { isLoggedIn, location, history } = this.props;
 		if (isLoggedIn !== prevProps.isLoggedIn){
-			history.push(this.props.location.state.from);
+			if(location.state === null || location.state === undefined){
+				history.push(Routes.HOME.path);
+			}else{
+				history.push(location.state.from);
+			}
 		}
 	}
 	
