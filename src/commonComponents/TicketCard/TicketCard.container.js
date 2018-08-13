@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Col, Row } from 'reactstrap';
 
-const TicketCard = ({ desc, location, priority, date }) => {
+const TicketCard = ({ desc, location, priority, date, onClickHandler, type, id }) => {
 	const dateObj = date.toDate();
 	const prettyDate = dateObj.toLocaleString('dk-DK');
 	return (
-		<Ticket>
+		<Ticket onClick={()=>onClickHandler(type, id)}>
 			<LeftWrapper md={9}>
 				<Header>
 					Lejlighed: Toldbodgade 30, 2. sal, lejl 1
@@ -64,7 +65,15 @@ const Info = styled.div`
 
 `;
 
-TicketCard.propTypes = {};
+TicketCard.propTypes = {
+	desc: PropTypes.string.isRequired,
+	location: PropTypes.string.isRequired,
+	priority: PropTypes.string.isRequired,
+	date: PropTypes.instanceOf(Date).isRequired,
+	onClickHandler: PropTypes.func.isRequired,
+	type: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired
+};
 TicketCard.defaultProps = {};
 
 export default TicketCard;
