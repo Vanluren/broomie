@@ -63,15 +63,18 @@ const SidebarList = styled.ul`
 `;
 
 SidebarMenu.propTypes = {
-	numSkader: PropTypes.number.isRequired,
-	numKlager: PropTypes.number.isRequired,
+	numSkader: PropTypes.number,
+	numKlager: PropTypes.number,
 	actions: PropTypes.shape({
 		userLogOut: PropTypes.func.isRequired
 	}).isRequired,
 // eslint-disable-next-line react/forbid-prop-types
 	history: PropTypes.object.isRequired
 };
-//SidebarMenu.defaultProps = {};
+SidebarMenu.defaultProps = {
+	 numSkader: null,
+	numKlager: null
+};
 
 const mapStateToProps = (state) => (
 	getNumberOfTickets(state)
