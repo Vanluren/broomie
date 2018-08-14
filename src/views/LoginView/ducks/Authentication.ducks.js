@@ -7,6 +7,7 @@ import {
 	USER_LOGIN,
 	USER_LOGOUT,
 } from '../../../services/redux/actionTypes';
+import { fetchAllTickets } from '../../HomeView/ducks/Home.ducks';
 
 export const userLogin = (username, password) => async (dispatch) => {
 	firebaseAuth
@@ -76,7 +77,6 @@ export const fetchUser = () => dispatch => {
 						.then(
 							(doc) => {
 								const deps = doc.data().departements;
-								
 								const userObj = {
 									uid: user.uid,
 									displayName: user.displayName,
@@ -85,16 +85,15 @@ export const fetchUser = () => dispatch => {
 									image: user.photoURL,
 									visibleDeps: deps
 								};
-								
 								dispatch({
 									type: FETCH_USER,
 									user: userObj
 								});
-								
-								return dispatch({
+								dispatch({
 									type: IS_FETCHING_STATUS,
 									status: false
 								});
+								return dispatch(fetchAllTickets(deps));
 							})
 						.catch(
 							//TODO: ADD ERRORHANDLING!
