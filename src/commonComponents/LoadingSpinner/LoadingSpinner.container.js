@@ -18,19 +18,19 @@ class LoadingSpinner extends Component {
 	};
 	
 	render() {
-		const { isFetchingUser, children } = this.props;
-		if (!isFetchingUser){
+		const { isFetchingUser, isFetchingTickets, children } = this.props;
+		if (isFetchingUser || isFetchingTickets){
 			return (
-				<div>
-					{children}
-				</div>
-			)
+				<Spinner className='justify-content-center'>
+					<img src={ajaxLoader} alt='Loading...' />
+				</Spinner>
+			);
 		}
 		return (
-			<Spinner className='justify-content-center'>
-				<img src={ajaxLoader} alt='Loading...' />
-			</Spinner>
-		);
+			<div>
+				{children}
+			</div>
+		)
 	}
 }
 
@@ -43,6 +43,7 @@ const Spinner = styled(Col)`
 `;
 
 LoadingSpinner.propTypes = {
+	isFetchingTickets: PropTypes.bool.isRequired,
 	isFetchingUser: PropTypes.bool.isRequired,
 	userData: PropTypes.shape(),
 	children: PropTypes.oneOfType([
@@ -61,7 +62,8 @@ LoadingSpinner.defaultProps = {
 const mapStateToProps = state => ({
 	isFetchingUser: state.auth.isFetchingUser,
 	userData: state.auth.userData,
-	isLoggedIn: state.auth.isLoggedIn
+	isLoggedIn: state.auth.isLoggedIn,
+	isFetchingTickets: state.data.isFetchingTickets
 });
 
 const mapDispatchToProps = dispatch => ({
