@@ -7,6 +7,7 @@ import LoginLogo from './components/Logo';
 import LoginForm from './components/LoginForm';
 import { userLogin } from './ducks/Authentication.ducks';
 import { Routes } from '../../services/router/router';
+import { redirectToRequestedPath } from '../../services/router/routeHelpers';
 
 const initialState = {
 	username: '',
@@ -25,13 +26,8 @@ class LoginView extends Component {
 	componentDidMount() {
 		const { userData, isLoggedIn, location, history } = this.props;
 		if (isLoggedIn && (userData !== null || userData !== undefined)){
-			if(location.state === null || location.state === undefined){
-				history.push(Routes.HOME.path);
-			}else{
-				history.push(location.state.from);
-			}
-			
-		}else{
+			redirectToRequestedPath(location, history);
+		} else {
 			history.push(Routes.LOGIN.path);
 		}
 	}
@@ -39,11 +35,7 @@ class LoginView extends Component {
 	componentDidUpdate(prevProps) {
 		const { isLoggedIn, location, history } = this.props;
 		if (isLoggedIn !== prevProps.isLoggedIn){
-			if(location.state === null || location.state === undefined){
-				history.push(Routes.HOME.path);
-			}else{
-				history.push(location.state.from);
-			}
+			redirectToRequestedPath(location, history);
 		}
 	}
 	

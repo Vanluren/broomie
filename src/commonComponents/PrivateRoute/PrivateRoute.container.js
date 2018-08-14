@@ -1,20 +1,16 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { redirectToRequestedPath } from '../../services/router/routeHelpers';
 
 class PrivateRoute extends Component {
-	
 	componentDidUpdate(prevProps) {
 		if (this.props !== prevProps){
-			
-			const { isFetchingUser, userData, isLoggedIn, history } = this.props;
-			
+			const { isFetchingUser, userData, isLoggedIn, history, location } = this.props;
 			if (isLoggedIn !== prevProps.isLoggedIn){
-				history.push('/');
+				redirectToRequestedPath(location, history)
 			}
-			
 			if (!isFetchingUser && !isLoggedIn && (!userData || userData === undefined)){
 				history.push('/login');
 			}
@@ -31,7 +27,6 @@ class PrivateRoute extends Component {
 			       }}
 		       />
 	}
-	
 }
 
 PrivateRoute.propTypes = {
@@ -39,10 +34,10 @@ PrivateRoute.propTypes = {
 		PropTypes.arrayOf(PropTypes.node),
 		PropTypes.node
 	]),
-	history: PropTypes.object,
-	location: PropTypes.object,
+	history: PropTypes.instanceOf(Object),
+	location: PropTypes.instanceOf(Object),
 	isFetchingUser: PropTypes.bool.isRequired,
-	userData: PropTypes.object,
+	userData: PropTypes.instanceOf(Object),
 	isLoggedIn: PropTypes.bool.isRequired
 };
 PrivateRoute.defaultProps = {
