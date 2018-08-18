@@ -10,7 +10,7 @@ import PrivateRoute from './commonComponents/PrivateRoute/PrivateRoute.container
 import registerServiceWorker from './registerServiceWorker';
 import HomeView from './views/HomeView/Home.container';
 import LoginView from './views/LoginView/LoginView.container';
-import WithLoadingSpinner from './commonComponents/LoadingSpinner/LoadingSpinner.container';
+import WithLoadingSpinner from './commonComponents/LoadingComponent/LoadingComponent.container';
 import { Routes } from './services/router/router';
 
 ReactDOM.render(
@@ -24,6 +24,20 @@ ReactDOM.render(
 						component={LoginView}
 					/>
 					<PrivateRoute>
+						<Route
+							path={Routes.TICKET.SKADE.path}
+							component={HomeView}
+						/>
+						<Route
+							path={Routes.TICKET.KLAGE.path}
+							component={HomeView}
+						/>
+						<Route
+							path={Routes.SKADER.path}
+						/>
+						<Route
+							path={Routes.KLAGER.path}
+						/>
 						<Route
 							path={Routes.HOME.path}
 							component={HomeView}
