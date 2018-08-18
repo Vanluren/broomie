@@ -6,8 +6,13 @@ import TicketOverView from '../../TicketOverView/TicketOverView.container';
 const HomeViewRouter = () => (
 	<Switch>
 		<Route
-			path={Routes.HOME.path}
-			component={TicketOverView}
+			path={Routes.TICKET.SKADE.path}
+			component={Routes.TICKET.SKADE.component}
+			exact
+		/>
+		<Route
+			path={Routes.TICKET.KLAGE.path}
+			component={Routes.TICKET.KLAGE.component}
 			exact
 		/>
 		<Route
@@ -21,13 +26,8 @@ const HomeViewRouter = () => (
 			exact
 		/>
 		<Route
-			path={Routes.TICKET.SKADE.path}
-			component={Routes.TICKET.SKADE.component}
-			exact
-		/>
-		<Route
-			path={Routes.TICKET.KLAGE.path}
-			component={Routes.TICKET.KLAGE.component}
+			path={Routes.HOME.path}
+			component={TicketOverView}
 			exact
 		/>
 	</Switch>
