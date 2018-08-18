@@ -14,7 +14,7 @@ import LoadingSpinner from '../../commonComponents/LoadingSpinner/LoadingSpinner
 class TicketView extends Component {
 	componentDidMount() {
 		const { viewingTicket, location, actions } = this.props;
-		if (viewingTicket === null && location.pathname.includes('/skade/') || location.pathname.includes('/klage/')){
+		if (viewingTicket === null && (location.pathname.includes('/skade/') || location.pathname.includes('/klage/'))){
 			const ticketID = location.pathname.split('/')[2];
 			actions.viewTicket(ticketID);
 		}

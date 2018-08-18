@@ -19,7 +19,7 @@ class PrivateRoute extends Component {
 	
 	render() {
 		const { children, userData, isFetchingUser, isLoggedIn } = this.props;
-		return (!isFetchingUser && userData || isLoggedIn) ? <div>{children}</div> :
+		return ((!isFetchingUser && userData) || isLoggedIn) ? <div>{children}</div> :
 		       <Redirect
 			       to={{
 				       pathname: "/login",
