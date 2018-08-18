@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import MenuItem from './components/MenuItem';
-import { getNumberOfTickets } from '../../services/selectors/selectors';
 import LogOutBTN from './components/LogOutBTN';
 import { userLogOut } from '../../views/LoginView/ducks/Authentication.ducks';
+import { Routes } from '../../services/router/router';
 
 
 const SidebarMenu = (props) => {
-	const { numSkader, numKlager, actions, history } = props;
+	const { actions, history } = props;
 	
 	const logOutBTNOnClick = () => {
 		actions.userLogOut();
@@ -21,18 +21,10 @@ const SidebarMenu = (props) => {
 		<SidebarWrapper>
 			<SidebarList>
 				<MenuItem
-					link='/'
-					itemName='Home'
-				/>
-				<MenuItem
-					link='/skader'
-					itemName='Skader'
-					num={numSkader}
-				/>
-				<MenuItem
-					link='/klager'
-					itemName='Klager'
-					num={numKlager}
+					itemName={Routes.HOME.menuTitle}
+					path={Routes.HOME.path}
+					component={Routes.HOME.component}
+					location={props.location}
 				/>
 				<LogOutBTN
 					itemName='Log Out'
@@ -63,19 +55,18 @@ const SidebarList = styled.ul`
 `;
 
 SidebarMenu.propTypes = {
-	numSkader: PropTypes.number.isRequired,
-	numKlager: PropTypes.number.isRequired,
 	actions: PropTypes.shape({
 		userLogOut: PropTypes.func.isRequired
 	}).isRequired,
-// eslint-disable-next-line react/forbid-prop-types
-	history: PropTypes.object.isRequired
+	history: PropTypes.shape({
+		push: PropTypes.func.isRequired
+	}).isRequired,
+	location: PropTypes.shape({
+		pathname: PropTypes.string
+	}).isRequired
 };
-//SidebarMenu.defaultProps = {};
 
-const mapStateToProps = (state) => (
-	getNumberOfTickets(state)
-);
+
 const mapDispatchToProps = (dispatch) => ({
 	actions: {
 		userLogOut: () => {
@@ -84,4 +75,4 @@ const mapDispatchToProps = (dispatch) => ({
 	}
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SidebarMenu));
+export default withRouter(connect(null, mapDispatchToProps)(SidebarMenu));

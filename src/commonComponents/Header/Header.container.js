@@ -3,15 +3,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Col } from 'reactstrap';
 import HeaderLogo from './components/Logo';
-import HeaderTitle from './components/Title';
 
 const Header = () => (
 		<HeaderWrapper>
 				<Col xs={4}>
 					<HeaderLogo />
-				</Col>
-				<Col xs={6}>
-					<HeaderTitle />
 				</Col>
 		</HeaderWrapper>
 );

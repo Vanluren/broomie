@@ -1,73 +1,22 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import styled from 'styled-components';
-import { Col } from 'reactstrap';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import ajaxLoader from '../../assets/images/ajax-loader.gif';
-import { fetchUser } from '../../views/LoginView/ducks/Authentication.ducks';
+import spinner from '../../assets/images/spinner.svg';
 
 
-class LoadingSpinner extends Component {
-	
-	componentDidMount() {
-		const { userData, actions } = this.props;
-		if (!userData || userData === null || userData === undefined){
-			actions.fetchUser();
-		}
-	};
-	
-	render() {
-		const { isFetchingUser, children } = this.props;
-		if (!isFetchingUser){
-			return (
-				<div>
-					{children}
-				</div>
-			)
-		}
-		return (
-			<Spinner className='justify-content-center'>
-				<img src={ajaxLoader} alt='Loading...' />
-			</Spinner>
-		);
-	}
-}
+const LoadingSpinner = () => (
+	<Spinner src={spinner} alt='Loading...' />
+);
 
-const Spinner = styled(Col)`
+const Spinner = styled.img`
+	width: 64px;
+	height: 64px;
 	position:absolute;
 	top: 50%;
 	left: 50%;
 	right: 50%;
 	bottom: 50%;
+	margin-left: -32px;
+    margin-top: -32px;
 `;
 
-LoadingSpinner.propTypes = {
-	isFetchingUser: PropTypes.bool.isRequired,
-	userData: PropTypes.shape(),
-	children: PropTypes.oneOfType([
-		PropTypes.arrayOf(PropTypes.node),
-		PropTypes.node
-	]),
-	actions: PropTypes.shape({
-		fetchUser: PropTypes.func.isRequired,
-	}).isRequired,
-};
-LoadingSpinner.defaultProps = {
-	userData: null,
-	children: null
-};
-
-const mapStateToProps = state => ({
-	isFetchingUser: state.auth.isFetchingUser,
-	userData: state.auth.userData,
-	isLoggedIn: state.auth.isLoggedIn
-});
-
-const mapDispatchToProps = dispatch => ({
-	actions: {
-		fetchUser: () => dispatch(fetchUser())
-	}
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoadingSpinner));
+export default LoadingSpinner;

@@ -6,6 +6,8 @@ import { Col, Container, Row } from 'reactstrap';
 import LoginLogo from './components/Logo';
 import LoginForm from './components/LoginForm';
 import { userLogin } from './ducks/Authentication.ducks';
+import { Routes } from '../../services/router/router';
+import { redirectToRequestedPath } from '../../services/router/routeHelpers';
 
 const initialState = {
 	username: '',
@@ -22,16 +24,18 @@ class LoginView extends Component {
 	}
 	
 	componentDidMount() {
-		const { userData, isLoggedIn } = this.props;
+		const { userData, isLoggedIn, location, history } = this.props;
 		if (isLoggedIn && (userData !== null || userData !== undefined)){
-			this.props.history.push('/');
+			redirectToRequestedPath(location, history);
+		} else {
+			history.push(Routes.LOGIN.path);
 		}
 	}
 	
 	componentDidUpdate(prevProps) {
-		const { isLoggedIn, history } = this.props;
+		const { isLoggedIn, location, history } = this.props;
 		if (isLoggedIn !== prevProps.isLoggedIn){
-			history.push('/');
+			redirectToRequestedPath(location, history);
 		}
 	}
 	
@@ -97,8 +101,12 @@ LoginView.propTypes = {
 	actions: PropType.shape({
 		userLogin: PropType.func.isRequired,
 	}).isRequired,
-	// eslint-disable-next-line react/forbid-prop-types
-	history: PropType.object
+	history: PropType.shape({
+		push: PropType.func,
+	}),
+	location: PropType.shape({
+		state: PropType.object,
+	}).isRequired
 };
 
 LoginView.defaultProps = {
