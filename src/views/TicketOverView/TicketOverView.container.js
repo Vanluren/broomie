@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Fade } from 'reactstrap';
 import TicketCard from '../../commonComponents/TicketCard/TicketCard.container';
-import WithLoadingSpinner from '../../commonComponents/LoadingSpinner/LoadingSpinner.container';
 import { viewTicket } from '../HomeView/ducks/Home.ducks';
 import { Routes } from '../../services/router/router';
+import TicketTypeNavigation from '../../commonComponents/TicketTypeNav/TicketTypeNavigation.container';
 
 
 class TicketOverView extends Component {
@@ -81,13 +81,12 @@ class TicketOverView extends Component {
 	}
 	
 	render() {
+		const { location } = this.props;
 		return (
-			<WithLoadingSpinner>
-				<Fade in>
-					{this.ticketCardConstructor()}
-				</Fade>
-			</WithLoadingSpinner>
-		
+			<Fade in>
+				{location.pathname.includes(Routes.HOME.path) ? <TicketTypeNavigation /> : null}
+				{this.ticketCardConstructor()}
+			</Fade>
 		);
 	}
 }

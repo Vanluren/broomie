@@ -3,8 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 import Header from '../../commonComponents/Header/Header.container';
 import SidebarMenu from '../../commonComponents/SidebarMenu/SidebarMenu.container';
-import TicketTypeNavigation from '../../commonComponents/TicketTypeNav/TicketTypeNavigation.container';
-import WithLoadingSpinner from '../../commonComponents/LoadingSpinner/LoadingSpinner.container';
 import HomeViewRouter from './components/HomeViewRouter';
 
 const HomeView = () => (
@@ -15,12 +13,11 @@ const HomeView = () => (
 		<Row>
 			<SidebarMenu />
 			<Col md={{ size: 10, offset: 1 }}>
-				<TicketTypeNavigation />
-				<WithLoadingSpinner>
-					<HomeViewRouter />
-				</WithLoadingSpinner>
+				<HomeViewRouter />
 			</Col>
 		</Row>
 	</Container>
 );
+
+
 export default withRouter((HomeView));
