@@ -60,8 +60,8 @@ const reducer = (state = DEFAULT_STATE, action) => {
 			return {
 				...state,
 				isFetchingTickets: false,
-				tickets: action.tickets,
-				lastUpdated: action.receivedAt
+				tickets: {...state.ticket, ...action.tickets},
+				lastUpdated: action.receivedAt,
 			};
 		case VIEW_TICKET:
 			return {
