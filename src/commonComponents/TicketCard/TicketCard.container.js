@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Col, Row } from 'reactstrap';
+import { Col } from 'reactstrap';
 
 const TicketCard = ({ desc, location, priority, date, onClickHandler, type, id }) => {
 	const dateObj = date.toDate();
 	const prettyDate = dateObj.toLocaleString('dk-DK');
 	return (
-		<Ticket onClick={()=>onClickHandler(type, id)}>
+		<Ticket onClick={() => onClickHandler(type, id)} md={12}>
 			<LeftWrapper md={9}>
 				<Header>
 					Lejlighed: Toldbodgade 30, 2. sal, lejl 1
@@ -32,14 +32,13 @@ const TicketCard = ({ desc, location, priority, date, onClickHandler, type, id }
 	)
 };
 
-
-const Ticket = styled(Row)`
+const Ticket = styled(Col)`
 	cursor: pointer;
 	width: 100%;
-	    display: flex;
+	display: flex;
     background-color: lightgray;
-    padding: 40px;
-    margin-top: 30px;
+    padding: 15px 10px;
+    margin-top: 20px;
     font-size: 18px;
     box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
     color: #007BFF;
