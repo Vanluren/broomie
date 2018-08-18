@@ -2,10 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { NavLink, Route } from 'react-router-dom';
+import { Routes } from '../../../services/router/router';
 
 const MenuItem = ({ path, itemName, location }) => {
 	let isActive = false;
-	if (location.pathname === path || (location.pathname === '/' && '/skader' || '/klager')){
+	if (location.pathname === path ||
+	    (location.pathname === Routes.HOME.path ||
+	    location.pathname === Routes.SKADER.path ||
+	    location.pathname === Routes.KLAGER.path)){
 		isActive = true;
 	}
 	
